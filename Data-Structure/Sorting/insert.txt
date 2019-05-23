@@ -1,0 +1,22 @@
+package sort;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class InsertArray {
+
+	public int[] q() throws FileNotFoundException {
+		int[] newArray = new int[12];
+		Scanner input = new Scanner(new File("C:/Users/com/Desktop/input/input4.txt"));
+		int n, a = 0;
+		while (input.hasNextInt()) {
+			n = input.nextInt();
+			newArray[a] = n;
+			a++;
+		}
+		input.close();
+		return newArray;
+	}
+
+}

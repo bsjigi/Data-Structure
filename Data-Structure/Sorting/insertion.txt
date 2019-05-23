@@ -1,0 +1,64 @@
+package sort;
+
+import java.io.FileNotFoundException;
+
+public class InsertionSortExample {
+	int compare = 1;
+	int plus = 1;
+	int minus = 0;
+	int assign = 2;	
+	
+	int[] insertionsort(int arr[]) {
+		int n = arr.length;
+		for (int i = 1; i < n; i++) {
+			compare++;
+			plus++;
+			int key = arr[i];
+			assign++;
+			int j = i - 1;
+			assign++;
+			minus++;
+			while (j >= 0 && arr[j] > key) {
+				compare = compare + 3;
+				arr[j + 1] = arr[j];
+				assign++;
+				plus++;
+				j = j - 1;
+				assign++;
+				minus++;
+			}compare = compare + 3;
+			arr[j + 1] = key;
+			plus ++;
+			assign++;
+		}
+	return arr;
+	}
+
+	static void printArray(int arr[]) {
+		int n = arr.length;
+		for (int i = 0; i < n; ++i)
+			System.out.print(arr[i] + " ");
+
+		System.out.println();
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		InsertArray IA = new InsertArray();
+		InsertionSortExample ex = new InsertionSortExample();
+		System.out.println();
+		
+		InsertionSortExample.printArray(IA.q());
+		InsertionSortExample.printArray(ex.insertionsort(IA.q()));
+		System.out.print("ºñ±³ ¿¬»ê: ");
+		System.out.print(ex.compare+" ");
+		System.out.print("ÇÒ´ç ¿¬»ê: ");
+		System.out.print(ex.assign+" ");
+		System.out.print("µ¡¼À ¿¬»ê: ");
+		System.out.print(ex.plus+" ");
+		System.out.print("»¬»ù ¿¬»ê: ");
+		System.out.print(ex.minus+" ");
+		System.out.print("total: ");
+		System.out.println(ex.minus+ex.compare+ex.assign+ex.plus);
+	}
+
+}

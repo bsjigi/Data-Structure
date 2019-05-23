@@ -1,0 +1,67 @@
+package sort;
+
+import java.io.FileNotFoundException;
+
+public class BubbleSortExample {
+	int compare = 1;
+	int plus = 0;
+	int minus = 1;
+	int bubble = 1;
+	int assign = 1;	
+	
+	int[] bubbleSort(int[] arr) {
+		
+		for (int i = arr.length - 1; i > 0; i--) {
+			
+			minus  =  minus+2;
+			compare= compare+2;
+			assign =  assign+2;
+			
+			
+			for (int j = 0; j < i; j++) {
+			
+			compare++;
+			plus++;
+				if (arr[j] > arr[j + 1]) {
+					compare++;
+					plus++;
+					int temp = arr[j];
+					assign++;
+					arr[j] = arr[j + 1];
+					assign++;
+					plus++;
+					arr[j + 1] = temp;
+					assign++;
+					plus++;
+				}
+			}
+		}
+		return arr;
+	}
+
+	void printArray(int arr[]) {
+		int n = arr.length;
+		for (int i = 0; i < n; ++i)
+			System.out.print(arr[i] + " ");
+		System.out.println();
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+		InsertArray IA = new InsertArray();
+		BubbleSortExample bubb = new BubbleSortExample();
+		System.out.println();
+		
+		bubb.printArray(IA.q());
+		bubb.printArray(bubb.bubbleSort(IA.q()));
+		System.out.print("ºñ±³ ¿¬»ê: ");
+		System.out.print(bubb.compare+ " ");
+		System.out.print("ÇÒ´ç ¿¬»ê: ");
+		System.out.print(bubb.assign+ " ");
+		System.out.print("µ¡¼À ¿¬»ê: ");
+		System.out.print(bubb.plus+ " ");
+		System.out.print("»¬»ù ¿¬»ê: ");
+		System.out.print(bubb.minus+ " ");
+		System.out.print("total: ");
+		System.out.println(bubb.minus+bubb.compare+bubb.assign+bubb.plus);
+	}
+}

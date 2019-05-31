@@ -1,0 +1,44 @@
+package ID;
+
+public class data<A, B> {
+	A id = null;
+
+	B pw = null;
+
+	
+
+	data(A id, B pw){
+
+		this.id = id;
+
+		this.pw = pw;
+
+	}
+
+	public A getId(){
+
+		return id;
+
+	}
+
+	
+
+	public void setId(A id){
+
+		this.id = id;
+
+	}
+
+	public  B getPw(){
+
+		return pw;
+
+	}
+
+	public void setPw(B pw){
+
+		this.pw = pw;
+
+	}
+
+}

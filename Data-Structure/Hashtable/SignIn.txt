@@ -1,0 +1,97 @@
+package ID;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.swing.plaf.synth.SynthStyle;
+
+public class Signin {
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		 
+		int x;
+		 
+		
+		Hashtable<String, data<String, String>> ht = new Hashtable<String, data<String, String>>();
+		
+		while(true){
+			
+			boolean Match = false;
+			
+			String tmpUserID = "";
+			String tmpUserPWD = "";
+			String id = null;
+			String pw = null;
+			data<String, String> data = new data(id, pw);
+			
+			
+			
+			System.out.print("1.회원가입 2.로그인 3.종료 : " );
+			x = Integer.parseInt(in.readLine());
+			
+			switch(x){
+			case 1:
+				System.out.print("회원가입 아이디  : ");
+				tmpUserID = in.readLine();
+				id = tmpUserID;
+				data.setId(id);
+				System.out.print("회원가입 비밀번호  : ");
+				tmpUserPWD = in.readLine();
+				pw = tmpUserPWD;
+				data.setPw(pw);
+				if(ht.get(tmpUserID) == null){
+					
+					ht.put(tmpUserID, data);
+				
+				}
+				else if(tmpUserID.equals(ht.get(tmpUserID).id)){
+					
+					System.out.println("아이디가 중복입니다.");
+				}
+				else{
+					ht.put(tmpUserID, data);
+					
+				}
+			
+				
+				break;
+			case 2:
+				System.out.print("로그인 아이디 : ");
+				tmpUserID = in.readLine();
+				id = tmpUserID;
+				data.setId(id);
+				System.out.print("로그인 비밀번호 : ");
+				tmpUserPWD = in.readLine();
+				pw = tmpUserPWD;
+				data.setPw(pw);
+				
+				
+				if(ht.get(tmpUserID) != null){
+					System.out.println("아이디가 존재합니다.");
+					String hsElement = ht.get(tmpUserID).pw;
+					if(hsElement.equals(tmpUserPWD)){
+						System.out.println(tmpUserID + "님 정상적으로 로그인 되었습니다.");
+					}else{
+						System.out.println("로그인 비밀번호가 틀렸습니다.");
+					}
+				}
+				
+				
+				
+				else{
+					System.out.println("로그인 아이디가 틀렸습니다.");
+					System.out.println();
+				}
+				break;
+			case 3:
+				
+				System.exit(0);
+				break;
+			}		 
+		}
+	}
+}

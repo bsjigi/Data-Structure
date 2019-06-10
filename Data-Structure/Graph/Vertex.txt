@@ -1,0 +1,19 @@
+package Graph;
+
+public class Vertex 
+{
+	public int name;
+	private int parent;
+	private int distance;
+	
+	public Vertex(int name)
+	{
+		this.name = name;
+	}
+	
+	public void setParent(int parent) { this.parent = parent; }
+	public void setDistance(int distance) { this.distance = distance; }
+	
+	public int getParent() { return parent; }
+	public int getDistance() { return distance; }
+}

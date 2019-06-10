@@ -1,0 +1,315 @@
+package Graph;
+
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.Stack;
+
+public class Dijkstra 
+{
+	private int[][] edges;
+	private int size;
+	
+	public Dijkstra(int x) 
+	{
+		edges = new int[x][x];
+		size = x;
+	}
+	
+	public void findPath2(int st, int des)
+	{
+		ArrayList<Integer> S = new ArrayList<Integer>();
+		ArrayList<Integer> V_S = new ArrayList<Integer>();
+		
+		int[] dist = new int[size];
+		int[] parent = new int[size];
+		
+		for (int i = 0; i < size; i++)
+		{
+			if (i == st)
+			{
+				S.add(i);
+			}
+			else
+			{
+				V_S.add(i);
+			}
+		}
+		
+		int s = S.get(0);
+		
+		for (int v : V_S)
+		{
+			parent[v] = s;
+			
+			if (hasPath(s, v))
+			{
+				dist[v] = edges[s][v];
+			}
+			else
+			{
+				dist[v] = 9999999;
+			}
+		}
+		
+		while (!V_S.isEmpty())
+		{
+			int u = findSmallestInt(V_S, dist);
+			
+			V_S.remove(new Integer(u));
+			S.add(u);
+			
+			ArrayList<Integer> adj = findAdjacentInt(u, V_S);
+			
+			for (int v : adj) 
+			{
+				if (dist[u] + edges[u][v] < dist[v])
+				{
+					dist[v] = dist[u] + edges[u][v];
+					parent[v] = u;
+				}
+			}
+		}
+		
+		System.out.println("이동 거리 : " + dist[des]);
+		System.out.print("이동 경로 : ");
+		Stack<Integer> sk = new Stack<Integer>();
+		while (true)
+		{
+			sk.add(des);
+			
+			if (des == st)
+			{
+				break;
+			}
+			des = parent[des];
+		}
+		
+		while (!sk.isEmpty())
+		{
+			int tg = sk.pop();
+			
+			if (sk.isEmpty())
+			{
+				System.out.print(tg);
+			}
+			else
+			{
+				System.out.print(tg + " --- > ");
+			}
+		}
+	}
+	
+	public void findPath(int st, int des)
+	{
+		ArrayList<Vertex> S = new ArrayList<Vertex>();
+		ArrayList<Vertex> V_S = new ArrayList<Vertex>();
+		
+		int[] parent = new int[size];
+		
+		for (int i = 0; i < size; i++)
+		{
+			if (i == st)
+			{
+				S.add(new Vertex(i));
+			}
+			else
+			{
+				V_S.add(new Vertex(i));
+			}
+		}
+		
+		int s = S.get(0).name;
+		
+		for (Vertex v : V_S)
+		{
+			v.setParent(s);
+			
+			if (hasPath(s, v.name))
+			{
+				v.setDistance(edges[s][v.name]);
+			}
+			else
+			{
+				v.setDistance(999999);
+			}
+		}
+		
+		while (!V_S.isEmpty())
+		{
+			Vertex u = findSmallest(V_S);
+			
+			V_S.remove(u);
+			S.add(u);
+			
+			ArrayList<Vertex> adj = findAdjacent(u, V_S);
+			
+			for (Vertex v : adj) 
+			{
+				if (u.getDistance() + edges[u.name][v.name] < v.getDistance())
+				{
+					v.setDistance(u.getDistance() + edges[u.name][v.name]);
+					v.setParent(u.name);
+				}
+			}
+		}
+		
+		for (Vertex p : S)
+		{
+			if (p.name == des)
+			{
+				System.out.println("이동 거리 : " + p.getDistance());
+				Stack<Integer> sk = new Stack<Integer>();
+				System.out.print("이동 경로  : ");
+				while (true)
+				{
+					sk.add(p.name);
+					
+					if (p.name == st)
+					{
+						break;
+					}
+					
+					p = findVertex(S, p.getParent());
+				}
+				
+				while (!sk.isEmpty())
+				{
+					int tg = sk.pop();
+					
+					if (sk.isEmpty())
+					{
+						System.out.print(tg);
+					}
+					else
+					{
+						System.out.print(tg + " -- > ");
+					}
+					
+				}
+				System.out.println();
+				System.out.println("-------------------------------------------");
+			}
+		}
+	}
+	
+	public Vertex findVertex(ArrayList<Vertex> S, int name)
+	{
+		for (Vertex s : S)
+		{
+			if (s.name == name)
+			{
+				return s;
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean hasPath(int s, int v)
+	{
+		if (edges[s][v] > -1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public Vertex findSmallest(ArrayList<Vertex> V_S)
+	{
+		Vertex v = V_S.get(0);
+		
+		for (int i = 1; i < V_S.size(); i++)
+		{
+			if (v.getDistance() > V_S.get(i).getDistance())
+			{
+				v = V_S.get(i);
+			}
+		}
+		
+		return v;
+	}
+	
+	public Integer findSmallestInt(ArrayList<Integer> V_S, int[] dist)
+	{
+		int v = V_S.get(0);
+		
+		for (int i = 1; i < V_S.size(); i++)
+		{
+			if (dist[v] > dist[V_S.get(i)])
+			{
+				v = V_S.get(i);
+			}
+		}
+		
+		return v;
+	}
+	
+	public ArrayList<Vertex> findAdjacent(Vertex u, ArrayList<Vertex> V_S)
+	{
+		ArrayList<Vertex> adj = new ArrayList<Vertex>();
+		
+		for (Vertex v : V_S)
+		{
+			if (hasPath(v.name, u.name))
+			{
+				adj.add(v);
+			}
+		}
+		
+		return adj;
+	}
+	
+	public ArrayList<Integer> findAdjacentInt(int u, ArrayList<Integer> V_S)
+	{
+		ArrayList<Integer> adj = new ArrayList<Integer>();
+		
+		for (int v : V_S)
+		{
+			if (hasPath(v, u))
+			{
+				adj.add(v);
+			}
+		}
+		
+		return adj;
+	}
+	
+	public void set(Queue<Integer> dist)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				if (i == j)
+				{
+					edges[i][j] = -1;
+				}
+				if (i < j)
+				{
+					edges[i][j] = dist.poll();
+				}
+				if (i > j)
+				{
+					edges[i][j] = edges[j][i];
+				}
+			}
+		}
+	}
+	
+	public void printEdges()
+	{
+		System.out.println("---------------------------------------");
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				System.out.print(edges[i][j] + "\t");
+			}
+			System.out.println();		
+		}
+		System.out.println("---------------------------------------");
+	}
+}

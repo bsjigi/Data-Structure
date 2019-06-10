@@ -1,0 +1,66 @@
+package Graph;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main 
+{
+	static int size = 5;
+	public static void main(String[] args) throws IOException
+	{	
+		Scanner scan = new Scanner(System.in);
+		FileReader fr = new FileReader("./src/input.txt");
+		BufferedReader bf = new BufferedReader(fr);
+		
+		Dijkstra dk = new Dijkstra(size);
+		Queue<Integer> dist = new LinkedList<Integer>();
+		
+		String line = "";
+		while ((line = bf.readLine()) != null)
+		{
+			int weight = Integer.parseInt(line);
+			dist.add(weight);
+		}
+		
+		bf.close();
+		
+		dk.set(dist);
+		dk.printEdges();
+		
+		while (true)
+		{
+			System.out.println("출발지 입력 : 0, 1, 2, 3, 4 | 종료는 -1 입력");
+			int st = scan.nextInt();
+			
+			if (st == -1)
+			{
+				System.out.println("종료합니다");
+				break;
+			}
+			
+			System.out.println("몾적지 입력 : 0, 1, 2, 3, 4 | 종료는 -1 입력");
+			int des = scan.nextInt();
+			
+			if (des == -1)
+			{
+				System.out.println("종료합니다");
+				break;
+			}
+			
+			if (st == des)
+			{
+				System.out.println();
+				System.out.println("출발지와 목적지가 같을 수 없습니다. 다시 입력해주세요.");
+				System.out.println("-------------------------------------------");
+			}
+			else
+			{
+				dk.findPath(st, des);
+			}
+		}
+	}
+}
